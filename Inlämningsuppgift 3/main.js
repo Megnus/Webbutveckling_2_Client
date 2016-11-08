@@ -55,9 +55,9 @@ form.addEventListener('submit', function(event) {
 	// Del 1
 	var inputs = this.getElementsByTagName('input');
 	for (var i = 0; i < inputs.length; i++) {
-		console.log(inputs[i].name + " : " + inputs[i].value);	
+		console.log(inputs[i].name + " : " + inputs[i].value);
 	}
-	
+
 	// Del 2
 	var firstnameCharLenght = inputs.firstname.value.lenght;
 	var lastnameCharLenght = inputs.lastname.value.lenght;
@@ -72,13 +72,13 @@ form.addEventListener('submit', function(event) {
 		}
 	}
 
-	if (firstnameCharLenght > 0 && firstnameCharLenght < 50) {
+	if (firstnameCharLenght < 0 || firstnameCharLenght > 50) { // or maybe: if (!(firstnameCharLenght >= 0 && firstnameCharLenght <= 50))
 		alert("Firstname can only be between 0 to 50 characters!");
-	} else if (lastnameCharLenght > 0 && lastnameCharLenght < 50) {
+	} else if (lastnameCharLenght < 0 || lastnameCharLenght > 50) {
 		alert("Lastname can only be between 0 to 50 characters!");
-	} else if (isNaN(age) || age < 0) {
+	} else if (isNaN(age) || age <= 0) {
 		alert("Age is not a valid number!");
-	} if (emailCharLenght > 0 && emailCharLenght < 50) {
+	} if (emailCharLenght < 0 || emailCharLenght > 50) {
 		alert("E-mail can only be between 0 to 50 characters!");
 	} else if (!checked) {
 		alert("Not pet has been picked!");
@@ -86,5 +86,5 @@ form.addEventListener('submit', function(event) {
 		event.target.submit();
 	}
 
-    event.preventDefault();  
+    event.preventDefault();
 });
