@@ -42,9 +42,10 @@ for (var i = 0; i < buttons.length; i++) {
 	buttons[i].addEventListener('click', function() {
 		// this.parentNode.remove(); <-- he method node.remove() is implemented in the DOM 4 specification.
 		// Workaround for the expression above.
-		var node = this.parentNode;
-		node.parentNode.removeChild(node);
-	});
+		if (window.confirm("Do you really want to remove item?")) { 
+			var node = this.parentNode;
+			node.parentNode.removeChild(node);
+		}
 }
 
 
