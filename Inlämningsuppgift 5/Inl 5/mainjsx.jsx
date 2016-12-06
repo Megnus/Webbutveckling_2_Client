@@ -72,28 +72,31 @@ var MyComponentx = React.createClass({
 ReactDOM.render(<MyComponentx/>, document.getElementById('container'));
 ReactDOM.render(<MyComponent/>, document.getElementById('test'));
 
+var objects = [
+		{index: 1, name: "Apples"},
+		{index: 2, name: "Broccoli"},
+		{index: 3, name: "Chicken"},
+		{index: 4, name: "Duck"},
+		{index: 5, name: "Lin"},
+		{index: 6, name: "Eggs"},
+		{index: 7, name: "Fish"},
+		{index: 8, name: "Granola"},
+		{index: 9, name: "Hash Browns"}
+	]
 
 var FilteredList = React.createClass({
 	filterList: function(event) {
 		var updatedList = this.state.initialItems;
 		updatedList = updatedList.filter(function(item) {
-			return item.toLowerCase().search(
+			return item['name'].toLowerCase().search(
 				event.target.value.toLowerCase()) !== -1;
 			});
 			this.setState({items: updatedList});
+			//array.push(event.target.value);
 		},
 		getInitialState: function() {
 			return {
-				initialItems: [
-				"Apples",
-				"Broccoli",
-				"Chicken",
-				"Duck",
-				"Eggs",
-				"Fish",
-				"Granola",
-				"Hash Browns"
-				],
+				initialItems: objects, //array,
 				items: []
 			}
 		},
@@ -110,14 +113,56 @@ var FilteredList = React.createClass({
 		}
 	});
 
-	var List = React.createClass({
+var List = React.createClass({
 		render: function() {
 			return (
 				<ul>
-					{this.props.items.map(function(item) {return <li key={item}>{item}</li>})}
+					{this.props.items.map(function(item) {return <li key={item['index']}>{item['name']}</li>})}
 				</ul>
 			)
 		}
 	});
 
 ReactDOM.render(<FilteredList/>, document.getElementById('mount-point'));
+
+
+class NameForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {value: ''};
+
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleChange(event) {
+		this.setState({value: event.target.value});
+	}
+
+	handleChangex(event) {
+		this.setState({valux: event.target.value});
+	}
+
+	handleSubmit(event) {
+		alert('A name was submitted: ' + this.state.value + '  A text was submitted: ' + this.state.valux);
+		event.preventDefault();
+	}
+
+	render() {
+		return (
+			<form onSubmit={this.handleSubmit}>
+				<label>
+					Name: <input type="text" value={this.state.value} onChange={this.handleChange} />
+				</label>
+				<label>
+					Textarea: <textarea value={this.state.valux} onChange={this.handleChangex} />
+				</label>
+
+				<input type="submit" value="Submit" />
+			</form>
+		);
+	}
+}
+
+//var fff = React.createClass(NameForm);
+ReactDOM.render(<NameForm/>, document.getElementById('mount-point'));
