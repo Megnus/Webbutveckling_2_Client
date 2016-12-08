@@ -35,15 +35,41 @@ var MyComponent = React.createClass({
     }
 });
 
+//https://facebook.github.io/react/docs/forms.html
+class MyComponentx extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			firstName: '',
+			lastName: ''};
 
-var MyComponentx = React.createClass({
-    render: function() {
+		this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
+		this.handleChangeLastName = this.handleChangeLastName.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+
+	handleChangeFirstName(event) {
+		this.setState({firstName: event.target.value});
+	}
+
+	handleChangeLastName(event) {
+		this.setState({lastName: event.target.value});
+	}
+
+	handleSubmit(event) {
+		alert('A name was submitted: ' + this.state.firstName + '  A text was submitted: ' + this.state.lastName);
+		event.preventDefault();
+	}
+
+    render() {
         return (
+        	<form onSubmit={this.handleSubmit}>
 			<ul className="form-style-1">
 				<li>
 					<label>Full Name <span className="required">*</span></label>
-					<input type="text" name="field1" className="field-divided" placeholder="First" />&nbsp;
-					<input type="text" name="field2" className="field-divided" placeholder="Last" />
+					<input type="text" name="field1" className="field-divided" placeholder="First" value={this.state.firstName} onChange={this.handleChangeFirstName} />&nbsp;
+					<input type="text" name="field2" className="field-divided" placeholder="Last" value={this.state.lastName} onChange={this.handleChangeLastName} />
 				</li>
 				<li>
 					<label>Email <span className="required">*</span></label>
@@ -65,9 +91,10 @@ var MyComponentx = React.createClass({
 					<input type="submit" value="Submit" />
 				</li>
 			</ul>
+			</form>
         );
     }
-});
+}
 
 ReactDOM.render(<MyComponentx/>, document.getElementById('container'));
 ReactDOM.render(<MyComponent/>, document.getElementById('test'));
@@ -94,16 +121,16 @@ var FilteredList = React.createClass({
 			this.setState({items: updatedList});
 			//array.push(event.target.value);
 		},
-		getInitialState: function() {
+	getInitialState: function() {
 			return {
 				initialItems: objects, //array,
 				items: []
 			}
 		},
-		componentWillMount: function(){
+	componentWillMount: function(){
 			this.setState({items: this.state.initialItems})
 		},
-		render: function(){
+	render: function(){
 			return (
 				<div className="filter-list">
 					<input type="text" placeholder="Search" onChange={this.filterList}/>
@@ -129,9 +156,10 @@ ReactDOM.render(<FilteredList/>, document.getElementById('mount-point'));
 class NameForm extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {value: ''};
+		this.state = {value: '', valux: ''};
 
 		this.handleChange = this.handleChange.bind(this);
+		this.handleChangex = this.handleChangex.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
