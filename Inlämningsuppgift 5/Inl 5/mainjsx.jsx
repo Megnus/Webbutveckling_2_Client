@@ -136,8 +136,9 @@ var FilteredMovies = React.createClass({
 	},
 	render: function() {
 			return (
-				<div className="filter-list">
-					<input type="text" placeholder="Search" onChange={this.filterList}/>
+				<div className="form-style-1">
+					<label className="field-divided">Movie list</label>
+					<input type="text" placeholder="Search" className="field-divided" onChange={this.filterList}/>
 					<List items={this.state.items}/>
 				</div>
 			);
@@ -178,7 +179,7 @@ var FilteredList = React.createClass({
 	render: function() {
 			return (
 				<div className="filter-list">
-					<input type="itext" placeholder="Search" onChange={this.filterList}/>
+					<input type="itext" placeholder="Search" className=".field-long" onChange={this.filterList}/>
 					<List items={this.state.items}/>
 				</div>
 			);
