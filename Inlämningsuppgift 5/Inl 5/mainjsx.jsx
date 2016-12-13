@@ -5,7 +5,7 @@
 **/
 
 "use strict";
-
+/*
  var ExampleApplication = React.createClass({
         render: function() {
           var elapsed = Math.round(this.props.elapsed  / 100);
@@ -13,10 +13,10 @@
           var message = 'React has been successfully running for ' + seconds + ' seconds.';
           return React.DOM.p(null, message);
         }
-      });
+      });/*
 
 // Call React.createFactory instead of directly call ExampleApplication({...}) in React.render
-var ExampleApplicationFactory = React.createFactory(ExampleApplication);
+/*var ExampleApplicationFactory = React.createFactory(ExampleApplication);
 
 var start = new Date().getTime();
 setInterval(function() {
@@ -25,79 +25,124 @@ setInterval(function() {
 		//React.createElement('h1', null, 'Hello!'),
 		document.getElementById('containerx')
 	);
-}, 50);
-
+}, 50);/*
+/*
 var MyComponent = React.createClass({
     render: function() {
         return (
             <h1>Hello, world!</h1>
         );
     }
-});
+});*/
 
 //https://facebook.github.io/react/docs/forms.html
 class MyComponentx extends React.Component {
+
 	constructor(props) {
+
 		super(props);
 		this.state = {
-			firstName: '',
-			lastName: ''};
+			index: 0,
+			title: '',
+			actor: '',
+			genre: 'Action',
+			year: new Date().getFullYear(),
+			plot: ''};
 
-		this.handleChangeFirstName = this.handleChangeFirstName.bind(this);
-		this.handleChangeLastName = this.handleChangeLastName.bind(this);
+		this.handleChangeEvent = this.handleChangeEvent.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
 
-
-	handleChangeFirstName(event) {
-		this.setState({firstName: event.target.value});
+	handleChangeEvent(event) {
+		var stateObject = function() {
+				var returnObj = {};
+				returnObj[this.target.name] = this.target.value;
+				return returnObj;
+    		}.bind(event)();
+		this.setState(stateObject);
 	}
 
-	handleChangeLastName(event) {
-		this.setState({lastName: event.target.value});
+	handleClick(event) {
+		//this.state.index++;
+		//this._child.componentWillMount();
 	}
 
 	handleSubmit(event) {
-		alert('A name was submitted: ' + this.state.firstName + '  A text was submitted: ' + this.state.lastName);
+		this.state.index++;
+		this.setState(this.state);
+		movies.push(this.state);
+		this._child.componentWillMount();
 		event.preventDefault();
 	}
 
     render() {
         return (
-        	<form onSubmit={this.handleSubmit}>
-			<ul className="form-style-1">
-				<li>
-					<label>Full Name <span className="required">*</span></label>
-					<input type="text" name="field1" className="field-divided" placeholder="First" value={this.state.firstName} onChange={this.handleChangeFirstName} />&nbsp;
-					<input type="text" name="field2" className="field-divided" placeholder="Last" value={this.state.lastName} onChange={this.handleChangeLastName} />
-				</li>
-				<li>
-					<label>Email <span className="required">*</span></label>
-					<input type="email" name="field3" className="field-long" />
-				</li>
-				<li>
-					<label>Subject</label>
-					<select name="field4" className="field-select">
-						<option value="Advertise">Advertise</option>
-						<option value="Partnership">Partnership</option>
-						<option value="General Question">General</option>
-					</select>
-				</li>
-				<li>
-					<label>Your Message <span className="required">*</span></label>
-					<textarea name="field5" id="field5" className="field-long field-textarea"></textarea>
-				</li>
-				<li>
-					<input type="submit" value="Submit" />
-				</li>
-			</ul>
-			</form>
+        	<div>
+	        	<form onSubmit={this.handleSubmit}>
+					<ul className="form-style-1">
+						<li>
+							<label>Film and year<span className="required">*</span></label>
+							<input type="text" name="title" className="field-divided" placeholder="Title" value={this.state.title} onChange={this.handleChangeEvent} />&nbsp;
+							<input type="number" name="year" className="field-divided" min="1880" max={new Date().getFullYear() + 25} value={this.state.year} onChange={this.handleChangeEvent} />
+						</li>
+						<li>
+							<label>Actor<span className="required">*</span></label>
+							<input type="text" name="actor" className="field-long" value={this.state.actor} onChange={this.handleChangeEvent} />
+
+						</li>
+						<li>
+							<label>Gengre<span className="required">*</span></label>
+							<select name="genre" className="field-select" value={this.state.genre} onChange={this.handleChangeEvent}>
+								<option value="Action">Action</option>
+								<option value="Drama">Drama</option>
+								<option value="Horror">Horror</option>
+							</select>
+						</li>
+						<li>
+							<label>Plot</label>
+							<textarea name="plot" className="field-long field-textarea" value={this.state.plot} onChange={this.handleChangeEvent}></textarea>
+						</li>
+						<li>
+							<input type="submit" value="Submit"/>
+						</li>
+					</ul>
+				</form>
+				<FilteredMovies ref={(child) => { this._child = child; }} />
+        	</div>
         );
     }
 }
 
-ReactDOM.render(<MyComponentx/>, document.getElementById('container'));
-ReactDOM.render(<MyComponent/>, document.getElementById('test'));
+var movies = [];
+
+var FilteredMovies = React.createClass({
+	filterList: function(event) {
+		this.getInitialState();
+		var updatedList = this.state.initialItems;
+		updatedList = updatedList.filter(function(item) {
+			return item['title'].toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+		});
+		this.setState({items: updatedList});
+	},
+	getInitialState: function() {
+		return {
+			initialItems: movies, //array,
+			items: []
+		}
+	},
+	componentWillMount: function() {
+		this.setState({items: this.state.initialItems})
+	},
+	render: function() {
+			return (
+				<div className="filter-list">
+					<input type="text" placeholder="Search" onChange={this.filterList}/>
+					<List items={this.state.items}/>
+				</div>
+			);
+		}
+	});
 
 var objects = [
 		{index: 1, name: "Apples"},
@@ -127,70 +172,34 @@ var FilteredList = React.createClass({
 				items: []
 			}
 		},
-	componentWillMount: function(){
+	componentWillMount: function() {
 			this.setState({items: this.state.initialItems})
 		},
-	render: function(){
+	render: function() {
 			return (
 				<div className="filter-list">
-					<input type="text" placeholder="Search" onChange={this.filterList}/>
+					<input type="itext" placeholder="Search" onChange={this.filterList}/>
 					<List items={this.state.items}/>
 				</div>
 			);
 		}
 	});
+/*
+var Wrapper = React.createClass({
+
+	});*/
 
 var List = React.createClass({
 		render: function() {
 			return (
 				<ul>
-					{this.props.items.map(function(item) {return <li key={item['index']}>{item['name']}</li>})}
+					{this.props.items.map(function(item) {return <li key={item['index']}>{item['title']}</li>})}
 				</ul>
 			)
 		}
 	});
 
-ReactDOM.render(<FilteredList/>, document.getElementById('mount-point'));
-
-
-class NameForm extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {value: '', valux: ''};
-
-		this.handleChange = this.handleChange.bind(this);
-		this.handleChangex = this.handleChangex.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
-
-	handleChange(event) {
-		this.setState({value: event.target.value});
-	}
-
-	handleChangex(event) {
-		this.setState({valux: event.target.value});
-	}
-
-	handleSubmit(event) {
-		alert('A name was submitted: ' + this.state.value + '  A text was submitted: ' + this.state.valux);
-		event.preventDefault();
-	}
-
-	render() {
-		return (
-			<form onSubmit={this.handleSubmit}>
-				<label>
-					Name: <input type="text" value={this.state.value} onChange={this.handleChange} />
-				</label>
-				<label>
-					Textarea: <textarea value={this.state.valux} onChange={this.handleChangex} />
-				</label>
-
-				<input type="submit" value="Submit" />
-			</form>
-		);
-	}
-}
-
-//var fff = React.createClass(NameForm);
-ReactDOM.render(<NameForm/>, document.getElementById('mount-point'));
+//ReactDOM.render(<MyComponent/>, document.getElementById('test'));
+ReactDOM.render(<MyComponentx/>, document.getElementById('container'));
+//ReactDOM.render(<FilteredList/>, document.getElementById('mount-point'));
+//ReactDOM.render(<FilteredMovies/>, document.getElementById('movies-div'));
