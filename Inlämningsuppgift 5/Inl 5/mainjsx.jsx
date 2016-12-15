@@ -78,37 +78,41 @@ class MyComponentx extends React.Component {
 
     render() {
         return (
-        	<div>
-	        	<form onSubmit={this.handleSubmit}>
-					<ul className="form-style-1">
-						<li>
-							<label>Film and year<span className="required">*</span></label>
-							<input type="text" name="title" className="field-divided" placeholder="Title" value={this.state.title} onChange={this.handleChangeEvent} />&nbsp;
-							<input type="number" name="year" className="field-divided" min="1880" max={new Date().getFullYear() + 25} value={this.state.year} onChange={this.handleChangeEvent} />
-						</li>
-						<li>
-							<label>Actor<span className="required">*</span></label>
-							<input type="text" name="actor" className="field-long" value={this.state.actor} onChange={this.handleChangeEvent} />
+        	<div id="main-content">
+        		<div id="form-content">
+					<form onSubmit={this.handleSubmit}>
+						<ul className="form-style-1">
+							<li>
+								<label>Film and year<span className="required">*</span></label>
+								<input type="text" name="title" className="field-divided" placeholder="Title" value={this.state.title} onChange={this.handleChangeEvent} />&nbsp;
+								<input type="number" name="year" className="field-divided" min="1880" max={new Date().getFullYear() + 25} value={this.state.year} onChange={this.handleChangeEvent} />
+							</li>
+							<li>
+								<label>Actor<span className="required">*</span></label>
+								<input type="text" name="actor" className="field-long" value={this.state.actor} onChange={this.handleChangeEvent} />
 
-						</li>
-						<li>
-							<label>Gengre<span className="required">*</span></label>
-							<select name="genre" className="field-select" value={this.state.genre} onChange={this.handleChangeEvent}>
-								<option value="Action">Action</option>
-								<option value="Drama">Drama</option>
-								<option value="Horror">Horror</option>
-							</select>
-						</li>
-						<li>
-							<label>Plot</label>
-							<textarea name="plot" className="field-long field-textarea" value={this.state.plot} onChange={this.handleChangeEvent}></textarea>
-						</li>
-						<li>
-							<input type="submit" value="Submit"/>
-						</li>
-					</ul>
-				</form>
-				<FilteredMovies ref={(child) => { this._child = child; }} />
+							</li>
+							<li>
+								<label>Gengre<span className="required">*</span></label>
+								<select name="genre" className="field-select" value={this.state.genre} onChange={this.handleChangeEvent}>
+									<option value="Action">Action</option>
+									<option value="Drama">Drama</option>
+									<option value="Horror">Horror</option>
+								</select>
+							</li>
+							<li>
+								<label>Plot</label>
+								<textarea name="plot" className="field-long field-textarea" value={this.state.plot} onChange={this.handleChangeEvent}></textarea>
+							</li>
+							<li>
+								<input type="submit" value="Submit"/>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<div id="table-content">
+					<FilteredMovies ref={(child) => { this._child = child; }} />
+				</div>
         	</div>
         );
     }
@@ -139,9 +143,51 @@ var FilteredMovies = React.createClass({
 				<div className="form-style-1">
 					<label className="field-divided">Movie list</label>
 					<input type="text" placeholder="Search" className="field-divided" onChange={this.filterList}/>
-					<List items={this.state.items}/>
+					<Table items={this.state.items} />
 				</div>
 			);
+		}
+	});
+
+
+
+var Table = React.createClass({
+		render: function() {
+			return (
+				<table className="field-long">
+					<tbody>
+						<tr>
+							<th>Title</th>
+							<th>Year</th>
+							<th>Actor</th>
+							<th>Genre</th>
+						</tr>{
+							this.props.items.map(
+								function(item) {
+									return (
+										<tr key={item['index']}>
+											<td>{item['title']}</td>
+											<td>{item['year']}</td>
+											<td>{item['actor']}</td>
+											<td>{item['genre']}</td>
+										</tr>
+									)
+								}
+							)
+						}
+					</tbody>
+				</table>
+			)
+		}
+	});
+
+var List = React.createClass({
+		render: function() {
+			return (
+				<ul>
+					{this.props.items.map(function(item) {return <li key={item['index']}>{item['title']}</li>})}
+				</ul>
+			)
 		}
 	});
 
@@ -181,6 +227,8 @@ var FilteredList = React.createClass({
 				<div className="filter-list">
 					<input type="itext" placeholder="Search" className=".field-long" onChange={this.filterList}/>
 					<List items={this.state.items}/>
+					<table style="width:100%">
+					</table>
 				</div>
 			);
 		}
@@ -189,17 +237,6 @@ var FilteredList = React.createClass({
 var Wrapper = React.createClass({
 
 	});*/
-
-var List = React.createClass({
-		render: function() {
-			return (
-				<ul>
-					{this.props.items.map(function(item) {return <li key={item['index']}>{item['title']}</li>})}
-				</ul>
-			)
-		}
-	});
-
 //ReactDOM.render(<MyComponent/>, document.getElementById('test'));
 ReactDOM.render(<MyComponentx/>, document.getElementById('container'));
 //ReactDOM.render(<FilteredList/>, document.getElementById('mount-point'));

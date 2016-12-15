@@ -82,4 +82,22 @@ select{
 .form-style-1 .required{
     color:red;
 }
+
+#main-content {background:white; width: 1000px;}
+#form-content {background:white; float:left; display:inline; width: 40%;}
+#table-content {background:white; float:right; display:inline; width: 55%; padding:14px;}
+th {
+    display: table-cell;
+    font-weight: bold;
+    text-align: left;
+}
+
+table {
+    margin-top: 30px;
+    table-layout: fixed;
+    width: 100px;
+}
+}
+
+
 </style>
