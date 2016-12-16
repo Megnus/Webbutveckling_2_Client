@@ -41,8 +41,10 @@ h1 {
 }
 
 h2 {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #BEBEBE;
+  margin-left:28px;
   font-size: 2em;
+  font: 32px "Lucida Sans Unicode", "Lucida Grande", sans-serif, bold;
 }
 
 h3 {
