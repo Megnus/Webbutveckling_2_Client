@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My first JavaScript page</title>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+<script src="jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+	var youtube = function(query) {
+		$.ajax({
+			url: "https://www.googleapis.com/youtube/v3/search", //?part=snippet&q=tool%20sober&key=AIzaSyARAjAxk1tf5ziPEiASuggEyPfOKvW2R3M",
+			data: {
+				q: query,
+				part: 'snippet',
+				key: 'AIzaSyARAjAxk1tf5ziPEiASuggEyPfOKvW2R3M'
+			},
+			dataType: 'json',
+			type: 'GET',
+			success: youtubeResult
+		});
+	}
+
+	var spotify = function(query) {
+		$.ajax({
+			url: "https://api.spotify.com/v1/search",//?q=Muse&type=track,artist&market=US",
+			data: {
+				q: query,
+				type: 'track',//,artist',
+				market: 'US' },
+			dataType: 'json',
+			type: 'GET',
+			success: spotifyResult
+		});
+	}
+
+	youtubeResult = function(result) {
+		console.log(result.items[0]);
+	}
+
+	spotifyResult = function(result){
+		var items = result.tracks.items;
+		for (var i in items) {
+			var item = items[i];
+			console.log(item.album.images[2].url)
+			console.log(item.album.name)
+			console.log(item.artists[0].name)
+			console.log(item.name);
+			console.log(item.duration_ms / 1000);
+		}
+
+		console.log(result.tracks.items[0]);
+	}
+
+	var query1 = "Mesh Kill Your Darlings";
+	var query2 = "Mesh Kill Your Darlings - Single Version"
+	spotify(query1);
+	youtube(query2);
+
+</script>
+</body>
+</html>
